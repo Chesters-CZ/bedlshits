@@ -6,5 +6,4 @@ public abstract class type {
         SUBMARINE,          // size 3
         PATROL              // size 2
     }
-    public boolean team;
 }
