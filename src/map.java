@@ -1,13 +1,29 @@
 import java.util.*;
 
 public class map {
-    public static tileType[][] mapka;
 
-    public static void create(int size, int cars, int bats, int dests, int subs, int pats) throws Exception {
-        mapka = new tileType[size][size];
+
+    public tile.type[][] mapka = new tile.type[10][10];
+    public tile.shipSize[][] shipSizes;
+
+    public void editmapka(int exks, int wai, tile.type watto){
+        mapka[exks][wai] = watto;
+    }
+
+    public tile.type readmapka(int exks, int wai){
+        return mapka[exks][wai];
+    }
+
+    public void editsizes(int exks, int wai, tile.shipSize changeto){
+    }
+    public tile.shipSize readsizes(int exks, int wai){
+        return shipSizes[exks][wai];
+    }
+
+    public void create(int size, int cars, int bats, int dests, int subs, int pats) throws Exception {
         for (int i = 0; i < mapka.length; i++) {
             for (int i1 = 0; i1 < mapka[i].length; i1++) {
-                mapka[i][i1] = tileType.WATER;
+                new doTile().deklarace(Field.whatdo.CREATE, i, i1, tile.type.WATER, tile.shipSize.NEITHER, false);
             }
         }
         Scanner scanner = new Scanner(System.in);
@@ -17,7 +33,7 @@ public class map {
             System.out.println("Hrac 0 zada pozici y sveho " + i + ". carriera");
             int y = scanner.nextInt();
             try {
-                addShit(type.size.CARRIER, x, y, false);
+                addShit(tile.shipSize.CARRIER, x, y, false);
             } catch (Exception e) {
                 throw new Exception(e);
             }
@@ -27,7 +43,7 @@ public class map {
             System.out.println("Hrac 1 zada pozici y sveho " + i + ". carriera");
             y = scanner.nextInt();
             try {
-                addShit(type.size.CARRIER, x, y, true);
+                addShit(tile.shipSize.CARRIER, x, y, true);
             } catch (Exception e) {
                 throw new Exception(e);
             }
@@ -38,7 +54,7 @@ public class map {
             System.out.println("Hrac 0 zada pozici y sveho " + i + ". battleshipu");
             int y = scanner.nextInt();
             try {
-                addShit(type.size.BATTLESHIP, x, y, false);
+                addShit(tile.shipSize.BATTLESHIP, x, y, false);
             } catch (Exception e) {
                 throw new Exception(e);
             }
@@ -48,7 +64,7 @@ public class map {
             System.out.println("Hrac 1 zada pozici y sveho " + i + ". battleshipu");
             y = scanner.nextInt();
             try {
-                addShit(type.size.BATTLESHIP, x, y, true);
+                addShit(tile.shipSize.BATTLESHIP, x, y, true);
             } catch (Exception e) {
                 throw new Exception(e);
             }
@@ -59,7 +75,7 @@ public class map {
             System.out.println("Hrac 0 zada pozici y sveho " + i + ". destroyera");
             int y = scanner.nextInt();
             try {
-                addShit(type.size.DESTROYER, x, y, false);
+                addShit(tile.shipSize.DESTROYER, x, y, false);
             } catch (Exception e) {
                 throw new Exception(e);
             }
@@ -69,7 +85,7 @@ public class map {
             System.out.println("Hrac 1 zada pozici y sveho " + i + ". destroyera");
             y = scanner.nextInt();
             try {
-                addShit(type.size.DESTROYER, x, y, true);
+                addShit(tile.shipSize.DESTROYER, x, y, true);
             } catch (Exception e) {
                 throw new Exception(e);
             }
@@ -80,7 +96,7 @@ public class map {
             System.out.println("Hrac 0 zada pozici y sve " + i + ". submariny");
             int y = scanner.nextInt();
             try {
-                addShit(type.size.SUBMARINE, x, y, false);
+                addShit(tile.shipSize.SUBMARINE, x, y, false);
             } catch (Exception e) {
                 throw new Exception(e);
             }
@@ -90,7 +106,7 @@ public class map {
             System.out.println("Hrac 1 zada pozici y sve " + i + ". submariny");
             y = scanner.nextInt();
             try {
-                addShit(type.size.SUBMARINE, x, y, true);
+                addShit(tile.shipSize.SUBMARINE, x, y, true);
             } catch (Exception e) {
                 throw new Exception(e);
             }
@@ -101,7 +117,8 @@ public class map {
             System.out.println("Hrac 0 zada pozici y sveho " + i + ". patrolu");
             int y = scanner.nextInt();
             try {
-                addShit(type.size.PATROL, x, y, false);
+                System.out.println("davam tvorit PATROL @ " + x +"/"+ y + " pro tym false");
+                addShit(tile.shipSize.PATROL, x, y, false);
             } catch (Exception e) {
                 throw new Exception(e);
             }
@@ -111,17 +128,14 @@ public class map {
             System.out.println("Hrac 1 zada pozici y sveho " + i + ". patrolu");
             y = scanner.nextInt();
             try {
-                addShit(type.size.PATROL, x, y, true);
+                addShit(tile.shipSize.PATROL, x, y, true);
             } catch (Exception e) {
                 throw new Exception(e);
             }
         }
     }
 
-    public static void addShit(type.size val, int posx, int posy, boolean tym) throws Exception {
-        if (map.mapka[posx][posy] != tileType.WATER) {
-            throw new Exception("Tam uz neco je.");
-        }
+    public void addShit(tile.shipSize val, int posx, int posy, boolean tym) throws Exception {
         int velkostLode;
         switch (val) {
             case CARRIER:
@@ -141,49 +155,49 @@ public class map {
                 throw new Exception("ship type not specified");
         }
         for (int i = 0; i <= velkostLode; i++) {
-            if (map.mapka[posx + i][posy] == tileType.WATER) {
                 if (tym) {
-                    map.mapka[posx + i][posy] = tileType.SHIPTRUE;
+                    new doTile().deklarace(Field.whatdo.CREATE, posx + i, posy, tile.type.SHIPTRUE, val, false);
                 } else {
-                    map.mapka[posx + i][posy] = tileType.SHIPFALSE;
+                    // map.mapka[posx + i][posy] = tile.type.SHIPFALSE;
+                    new doTile().deklarace(Field.whatdo.CREATE, posx + i, posy, tile.type.SHIPFALSE, val, false);
                 }
 
-            } else {
-                throw new Exception("tam uz neco je");
-            }
+
         }
     }
 
     public static void fajr(int posx, int posy, boolean attecker) throws Exception {
-        if (attecker) {
-            if (map.mapka[posx][posy] == tileType.SHIPFALSE) {
-                map.mapka[posx][posy] = tileType.HIT;
-            } else if (map.mapka[posx][posy] == tileType.WATER) {
-                map.mapka[posx][posy] = tileType.MISS;
+        /* if (attecker) {
+            if (map.mapka[posx][posy] == tile.type.SHIPFALSE) {
+                map.mapka[posx][posy] = tile.type.HIT;
+            } else if (map.mapka[posx][posy] == tile.type.WATER) {
+                map.mapka[posx][posy] = tile.type.MISS;
             } else {
                 throw new Exception("invalidni target");
             }
         } else {
-            if (map.mapka[posx][posy] == tileType.SHIPTRUE) {
-                map.mapka[posx][posy] = tileType.HIT;
-            } else if (map.mapka[posx][posy] == tileType.WATER) {
-                map.mapka[posx][posy] = tileType.MISS;
+            if (map.mapka[posx][posy] == tile.type.SHIPTRUE) {
+                map.mapka[posx][posy] = tile.type.HIT;
+            } else if (map.mapka[posx][posy] == tile.type.WATER) {
+                map.mapka[posx][posy] = tile.type.MISS;
             } else {
                 throw new Exception("invalidni target");
             }
-        }
-        System.out.println(map.mapka[posx][posy]);
+        } */
+
+        new doTile().deklarace(Field.whatdo.FIRE, posx, posy, tile.type.NEITHER, tile.shipSize.NEITHER, attecker);
+        System.out.println(new map().readmapka(posx, posy));
         System.out.println(posx+ " xx " + posy + " xx " + attecker);
     }
 
     public static int isWon() throws Exception {         // 0=player0 won, 1=player1 won, 2=nobody won, 3=no ships found
         int plr0 = 0;
         int plr1 = 0;
-        for (int i = 0; i < mapka.length; i++) {
-            for (int i1 = 0; i1 < mapka[i].length; i1++) {
-                if (mapka[i][i1] == tileType.SHIPTRUE) {
+        for (int i = 0; i < Main.velky; i++) {
+            for (int i1 = 0; i1 < Main.velky; i1++) {
+                if (new map().readmapka(i, i1) == tile.type.SHIPTRUE) {
                     plr1++;
-                } else if (mapka[i][i1] == tileType.SHIPFALSE) {
+                } else if (new map().readmapka(i, i1) == tile.type.SHIPFALSE) {
                     plr0++;
                 }
             }

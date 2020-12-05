@@ -38,14 +38,17 @@ public class Main {
         }
     }
 
+    public static int velky;
+
     public static void begin() throws Exception {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Jak velky pole chces? Minimum je 10");
-        int velky = scanner.nextInt();
+        velky = scanner.nextInt();
         if (velky < 10) {
             throw new Exception("Debilku, zadals moc maly pole!");
         }
+        velky = 10;
         System.out.println("Vyborne. Od kazdyho typu lode budete kazdej mit k dispozici 1 aby se to veslo.");
-        map.create(velky, 0, 0, 0, 0, 1);
+        new map().create(velky, 0, 0, 0, 0, 1);
     }
 }
